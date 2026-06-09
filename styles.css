@@ -204,6 +204,72 @@ body {
     font-weight: 600;
 }
 
+/* District List */
+.active-district {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--panel-border);
+}
+
+.district-list-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 200px; /* limits height so it's scrollable */
+}
+
+.district-list-header {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.district-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* Custom Scrollbar for district list */
+.district-list::-webkit-scrollbar {
+    width: 4px;
+}
+.district-list::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+.district-list::-webkit-scrollbar-thumb {
+    background: var(--panel-border);
+    border-radius: 2px;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    transition: background 0.2s;
+}
+.list-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+.list-item.active {
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 2px solid var(--accent);
+}
+
+.list-item-name {
+    color: var(--text-primary);
+}
+.list-item-cases {
+    font-weight: 600;
+}
+
 /* Legend */
 .legend-panel h3 {
     font-size: 14px;

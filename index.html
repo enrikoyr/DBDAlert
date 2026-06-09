@@ -43,15 +43,24 @@
             <div class="divider"></div>
             
             <h3>District Details</h3>
-            <p id="districtName" class="district-name">Hover over a district</p>
-            <div class="district-stats" id="districtStats">
-                <div class="stat-row">
-                    <span>Predicted Risk:</span>
-                    <span id="riskLevel">--</span>
+            <div id="activeDistrict" class="active-district">
+                <p id="districtName" class="district-name">Hover over a map area</p>
+                <div class="district-stats" id="districtStats">
+                    <div class="stat-row">
+                        <span>Predicted Risk:</span>
+                        <span id="riskLevel">--</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Recent Cases:</span>
+                        <span id="recentCases">--</span>
+                    </div>
                 </div>
-                <div class="stat-row">
-                    <span>Recent Cases:</span>
-                    <span id="recentCases">--</span>
+            </div>
+            
+            <div class="district-list-container">
+                <div class="district-list-header">All Districts</div>
+                <div id="districtList" class="district-list">
+                    <!-- Injected via JS -->
                 </div>
             </div>
         </div>

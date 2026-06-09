@@ -105,14 +105,49 @@ function updateDistrictStats(feature) {
         recentCasesEl.textContent = data.cases;
         districtStatsEl.classList.add('active');
     }
+
+    // Highlight in list
+    document.querySelectorAll('.list-item').forEach(item => {
+        if (item.dataset.district === districtName) {
+            item.classList.add('active');
+            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            item.classList.remove('active');
+        }
+    });
 }
 
 function clearDistrictStats() {
     const districtNameEl = document.getElementById('districtName');
     const districtStatsEl = document.getElementById('districtStats');
     
-    districtNameEl.textContent = 'Hover over a district';
+    districtNameEl.textContent = 'Hover over a map area';
     districtStatsEl.classList.remove('active');
+
+    // Remove list highlight
+    document.querySelectorAll('.list-item').forEach(item => {
+        item.classList.remove('active');
+    });
+}
+
+function renderDistrictList() {
+    const listEl = document.getElementById('districtList');
+    listEl.innerHTML = ''; // clear
+
+    // Sort alphabetically
+    const sortedDistricts = Object.keys(districtData).sort();
+
+    sortedDistricts.forEach(name => {
+        const data = districtData[name];
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.dataset.district = name;
+        item.innerHTML = `
+            <span class="list-item-name">${name}</span>
+            <span class="list-item-cases" style="color: ${data.riskColor}">${data.cases} cases</span>
+        `;
+        listEl.appendChild(item);
+    });
 }
 
 // Add event listeners to each feature
@@ -170,6 +205,9 @@ async function loadGeoJSON() {
                 extremeHotspotsCounter++;
             }
         });
+
+        // Render the full district list
+        renderDistrictList();
 
         // Update overall stats panel
         document.getElementById('totalCases').textContent = totalCasesCounter;
