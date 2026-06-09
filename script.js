@@ -142,8 +142,15 @@ function renderDistrictList() {
         const item = document.createElement('div');
         item.className = 'list-item';
         item.dataset.district = name;
+        const isKota = name.toLowerCase().includes("pontianak") || name.toLowerCase().includes("singkawang");
+        const typeText = isKota ? "Kota" : "Kabupaten";
+        const badgeClass = isKota ? "badge-kota" : "badge-kab";
+
         item.innerHTML = `
-            <span class="list-item-name">${name}</span>
+            <div class="list-item-info">
+                <span class="district-badge ${badgeClass}">${typeText}</span>
+                <span class="list-item-name">${name}</span>
+            </div>
             <span class="list-item-cases" style="color: ${data.riskColor}">${data.cases} kasus</span>
         `;
         listEl.appendChild(item);

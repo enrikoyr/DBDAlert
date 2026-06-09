@@ -263,6 +263,30 @@ body {
     border-left: 2px solid var(--accent);
 }
 
+.list-item-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.district-badge {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+.badge-kota {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+.badge-kab {
+    background-color: rgba(160, 170, 191, 0.15);
+    color: #a0aabf;
+    border: 1px solid rgba(160, 170, 191, 0.2);
+}
+
 .list-item-name {
     color: var(--text-primary);
 }
