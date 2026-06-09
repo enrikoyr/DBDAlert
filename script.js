@@ -20,8 +20,8 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 // Mock Data Generator
 // Generates random mock dengue case data for districts
 function generateMockData(districtName) {
-    // Generate a random number of cases between 0 and 150
-    const cases = Math.floor(Math.random() * 150);
+    // Set all cases to 0 for backend setup preparation
+    const cases = 0;
     
     let riskLevel = 'Low';
     let riskColor = '#22c55e'; // Green
@@ -181,10 +181,11 @@ async function loadGeoJSON() {
             onEachFeature: onEachFeature
         }).addTo(map);
 
-        // Fit map bounds to the geojson layer with padding to compensate for the left panel
+        // Fit map bounds with padding adjusted for desktop (left panel) vs mobile (bottom panels)
+        const isMobile = window.innerWidth <= 768;
         map.fitBounds(geojsonLayer.getBounds(), {
-            paddingTopLeft: [360, 20], // 320px left panel + 40px margin
-            paddingBottomRight: [20, 20]
+            paddingTopLeft: isMobile ? [10, 10] : [330, 10], // Shift right on desktop
+            paddingBottomRight: isMobile ? [10, 360] : [10, 10] // Shift up on mobile
         });
 
     } catch (error) {

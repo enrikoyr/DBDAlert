@@ -279,3 +279,31 @@ body {
 .pulsing-path {
     animation: pulse 2s infinite;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .left-panel {
+        top: auto;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+    }
+    
+    .bottom-right {
+        display: none; /* Hide legend on mobile to save space */
+    }
+    
+    .vignette-overlay {
+        /* Shift vignette focus slightly up for mobile since panels are at bottom */
+        background: radial-gradient(circle at center 40%, transparent 15%, rgba(15, 17, 21, 1) 90%);
+    }
+    
+    .header-panel h1 {
+        font-size: 20px;
+    }
+    
+    .glass-panel {
+        padding: 16px;
+    }
+}
