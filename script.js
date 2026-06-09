@@ -23,17 +23,17 @@ function generateMockData(districtName) {
     // Set all cases to 0 for backend setup preparation
     const cases = 0;
     
-    let riskLevel = 'Low';
+    let riskLevel = 'Rendah';
     let riskColor = '#22c55e'; // Green
     
     if (cases > 100) {
-        riskLevel = 'Extreme';
+        riskLevel = 'Ekstrem';
         riskColor = '#ef4444'; // Red
     } else if (cases > 50) {
-        riskLevel = 'High';
+        riskLevel = 'Tinggi';
         riskColor = '#f97316'; // Orange
     } else if (cases > 20) {
-        riskLevel = 'Medium';
+        riskLevel = 'Sedang';
         riskColor = '#eab308'; // Yellow
     }
 
@@ -51,7 +51,7 @@ let extremeHotspotsCounter = 0;
 
 // Style function for GeoJSON layer
 function styleFeature(feature) {
-    const data = districtData[feature.properties.NAME_2 || feature.properties.KABKOT || feature.properties.Kabupaten || "Unknown"];
+    const data = districtData[feature.properties.NAME_2 || feature.properties.KABKOT || feature.properties.Kabupaten || "Tidak Diketahui"];
     const fillColor = data ? data.riskColor : '#3b82f6';
 
     return {
@@ -89,7 +89,7 @@ function resetHighlight(e) {
 
 // Update the side panel with district stats
 function updateDistrictStats(feature) {
-    const districtName = feature.properties.NAME_2 || feature.properties.KABKOT || feature.properties.Kabupaten || "Unknown District";
+    const districtName = feature.properties.NAME_2 || feature.properties.KABKOT || feature.properties.Kabupaten || "Daerah Tidak Diketahui";
     const data = districtData[districtName];
 
     const districtNameEl = document.getElementById('districtName');
@@ -121,7 +121,7 @@ function clearDistrictStats() {
     const districtNameEl = document.getElementById('districtName');
     const districtStatsEl = document.getElementById('districtStats');
     
-    districtNameEl.textContent = 'Hover over a map area';
+    districtNameEl.textContent = 'Arahkan kursor ke area peta';
     districtStatsEl.classList.remove('active');
 
     // Remove list highlight
@@ -144,7 +144,7 @@ function renderDistrictList() {
         item.dataset.district = name;
         item.innerHTML = `
             <span class="list-item-name">${name}</span>
-            <span class="list-item-cases" style="color: ${data.riskColor}">${data.cases} cases</span>
+            <span class="list-item-cases" style="color: ${data.riskColor}">${data.cases} kasus</span>
         `;
         listEl.appendChild(item);
     });
@@ -196,12 +196,12 @@ async function loadGeoJSON() {
 
         // Initialize mock data for each district
         kalbarFeatures.forEach(f => {
-            const districtName = f.properties.NAME_2 || f.properties.KABKOT || f.properties.Kabupaten || "Unknown";
+            const districtName = f.properties.NAME_2 || f.properties.KABKOT || f.properties.Kabupaten || "Tidak Diketahui";
             const mock = generateMockData(districtName);
             districtData[districtName] = mock;
             
             totalCasesCounter += mock.cases;
-            if (mock.riskLevel === 'Extreme' || mock.riskLevel === 'High') {
+            if (mock.riskLevel === 'Ekstrem' || mock.riskLevel === 'Tinggi') {
                 extremeHotspotsCounter++;
             }
         });

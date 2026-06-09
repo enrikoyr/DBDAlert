@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DBDAlert - West Borneo Dengue Outbreak Prediction</title>
+    <title>DBDAlert - Prediksi Wabah DBD Kalimantan Barat</title>
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,41 +24,41 @@
     <div class="overlay-container left-panel">
         <div class="glass-panel header-panel">
             <h1>DBDAlert</h1>
-            <p class="subtitle">West Borneo Outbreak Prediction</p>
+            <p class="subtitle">Prediksi Wabah DBD Kalimantan Barat</p>
         </div>
         
         <div class="glass-panel stats-panel">
-            <h2>Current Situation</h2>
+            <h2>Situasi Terkini</h2>
             <div class="stat-grid">
                 <div class="stat-card">
                     <span class="stat-value text-danger" id="totalCases">--</span>
-                    <span class="stat-label">Total Cases</span>
+                    <span class="stat-label">Total Kasus</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-value text-warning" id="activeHotspots">--</span>
-                    <span class="stat-label">Active Hotspots</span>
+                    <span class="stat-label">Hotspot Aktif</span>
                 </div>
             </div>
             
             <div class="divider"></div>
             
-            <h3>District Details</h3>
+            <h3>Detail Kabupaten/Kota</h3>
             <div id="activeDistrict" class="active-district">
-                <p id="districtName" class="district-name">Hover over a map area</p>
+                <p id="districtName" class="district-name">Arahkan kursor ke area peta</p>
                 <div class="district-stats" id="districtStats">
                     <div class="stat-row">
-                        <span>Predicted Risk:</span>
+                        <span>Prediksi Risiko:</span>
                         <span id="riskLevel">--</span>
                     </div>
                     <div class="stat-row">
-                        <span>Recent Cases:</span>
+                        <span>Kasus Terkini:</span>
                         <span id="recentCases">--</span>
                     </div>
                 </div>
             </div>
             
             <div class="district-list-container">
-                <div class="district-list-header">All Districts</div>
+                <div class="district-list-header">Semua Kabupaten/Kota</div>
                 <div id="districtList" class="district-list">
                     <!-- Injected via JS -->
                 </div>
@@ -68,23 +68,23 @@
     
     <div class="overlay-container bottom-right">
         <div class="glass-panel legend-panel">
-            <h3>Risk Level</h3>
+            <h3>Tingkat Risiko</h3>
             <div class="legend-items">
                 <div class="legend-item">
                     <span class="color-box risk-extreme"></span>
-                    <span>Extreme (>100 cases)</span>
+                    <span>Ekstrem (>100 kasus)</span>
                 </div>
                 <div class="legend-item">
                     <span class="color-box risk-high"></span>
-                    <span>High (51-100 cases)</span>
+                    <span>Tinggi (51-100 kasus)</span>
                 </div>
                 <div class="legend-item">
                     <span class="color-box risk-medium"></span>
-                    <span>Medium (21-50 cases)</span>
+                    <span>Sedang (21-50 kasus)</span>
                 </div>
                 <div class="legend-item">
                     <span class="color-box risk-low"></span>
-                    <span>Low (0-20 cases)</span>
+                    <span>Rendah (0-20 kasus)</span>
                 </div>
             </div>
         </div>
