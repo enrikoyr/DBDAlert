@@ -241,6 +241,22 @@ body {
     border-top-color: var(--panel-border);
 }
 
+/* Permanent District Labels */
+.leaflet-tooltip.district-label {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.8), 0px 0px 8px rgba(0, 0, 0, 0.8);
+    pointer-events: none !important;
+}
+.leaflet-tooltip.district-label::before {
+    display: none;
+}
+
 /* Animations */
 @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }

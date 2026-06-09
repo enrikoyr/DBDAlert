@@ -1,13 +1,14 @@
 // Initialize Map centered on West Borneo (Kalimantan Barat)
 // Coordinates roughly: 0.2787° S, 111.4753° E
 const map = L.map('map', {
-    zoomControl: false // We will move the zoom control
+    zoomControl: false,
+    dragging: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    touchZoom: false
 }).setView([-0.2787, 111.4753], 7);
-
-// Move zoom control to top right
-L.control.zoom({
-    position: 'topright'
-}).addTo(map);
 
 // Add Dark Theme Tile Layer (CartoDB Dark Matter)
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -55,10 +56,10 @@ function styleFeature(feature) {
 
     return {
         fillColor: fillColor,
-        weight: 1.5,
+        weight: 2,
         opacity: 1,
-        color: 'rgba(255, 255, 255, 0.2)',
-        fillOpacity: 0.6
+        color: '#ffffff',
+        fillOpacity: 0.7
     };
 }
 
@@ -123,11 +124,12 @@ function onEachFeature(feature, layer) {
 
     const districtName = feature.properties.NAME_2 || feature.properties.KABKOT || feature.properties.Kabupaten || "Unknown";
     
-    // Create tooltip
+    // Create permanent label
     layer.bindTooltip(districtName, {
-        className: 'dark-tooltip',
-        direction: 'auto',
-        sticky: true
+        className: 'district-label',
+        direction: 'center',
+        permanent: true,
+        interactive: false
     });
 }
 
@@ -179,8 +181,9 @@ async function loadGeoJSON() {
             onEachFeature: onEachFeature
         }).addTo(map);
 
-        // Fit map bounds to the geojson layer
-        map.fitBounds(geojsonLayer.getBounds(), { padding: [50, 50] });
+        // Fit map bounds to the geojson layer and set max bounds
+        map.fitBounds(geojsonLayer.getBounds(), { padding: [20, 20] });
+        map.setMaxBounds(geojsonLayer.getBounds());
 
     } catch (error) {
         console.error('Error loading GeoJSON:', error);
