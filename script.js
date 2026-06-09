@@ -233,11 +233,11 @@ async function loadGeoJSON() {
             onEachFeature: onEachFeature
         }).addTo(map);
 
-        // Fit map bounds with padding adjusted for desktop (left panel) vs mobile (bottom panels)
+        // Fit map bounds with padding adjusted for desktop (left panel) vs mobile (split screen)
         const isMobile = window.innerWidth <= 768;
         map.fitBounds(geojsonLayer.getBounds(), {
             paddingTopLeft: isMobile ? [10, 10] : [330, 10], // Shift right on desktop
-            paddingBottomRight: isMobile ? [10, 360] : [10, 10] // Shift up on mobile
+            paddingBottomRight: isMobile ? [10, 10] : [10, 10] // Normal padding on mobile
         });
 
     } catch (error) {
