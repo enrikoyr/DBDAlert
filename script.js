@@ -44,6 +44,13 @@ function generateMockData(districtName) {
     };
 }
 
+// Clean up district name from GeoJSON properties
+function getDistrictName(properties) {
+    let name = properties.NAME_2 || properties.KABKOT || properties.Kabupaten || "Tidak Diketahui";
+    // Remove "Kota " or "Kabupaten " from the beginning (case insensitive)
+    return name.replace(/^(Kota|Kabupaten)\s+/i, '').trim();
+}
+
 // Global variable to store mock data mapped by district name
 const districtData = {};
 let totalCasesCounter = 0;
@@ -51,7 +58,7 @@ let extremeHotspotsCounter = 0;
 
 // Style function for GeoJSON layer
 function styleFeature(feature) {
-    const data = districtData[feature.properties.NAME_2 || feature.properties.KABKOT || feature.properties.Kabupaten || "Tidak Diketahui"];
+    const data = districtData[getDistrictName(feature.properties)];
     const fillColor = data ? data.riskColor : '#3b82f6';
 
     return {
@@ -89,7 +96,7 @@ function resetHighlight(e) {
 
 // Update the side panel with district stats
 function updateDistrictStats(feature) {
-    const districtName = feature.properties.NAME_2 || feature.properties.KABKOT || feature.properties.Kabupaten || "Daerah Tidak Diketahui";
+    const districtName = getDistrictName(feature.properties);
     const data = districtData[districtName];
 
     const districtNameEl = document.getElementById('districtName');
@@ -164,7 +171,7 @@ function onEachFeature(feature, layer) {
         mouseout: resetHighlight,
     });
 
-    const districtName = feature.properties.NAME_2 || feature.properties.KABKOT || feature.properties.Kabupaten || "Unknown";
+    const districtName = getDistrictName(feature.properties);
     
     // Create permanent label
     layer.bindTooltip(districtName, {
@@ -203,7 +210,7 @@ async function loadGeoJSON() {
 
         // Initialize mock data for each district
         kalbarFeatures.forEach(f => {
-            const districtName = f.properties.NAME_2 || f.properties.KABKOT || f.properties.Kabupaten || "Tidak Diketahui";
+            const districtName = getDistrictName(f.properties);
             const mock = generateMockData(districtName);
             districtData[districtName] = mock;
             
