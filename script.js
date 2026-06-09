@@ -181,9 +181,11 @@ async function loadGeoJSON() {
             onEachFeature: onEachFeature
         }).addTo(map);
 
-        // Fit map bounds to the geojson layer and set max bounds
-        map.fitBounds(geojsonLayer.getBounds(), { padding: [20, 20] });
-        map.setMaxBounds(geojsonLayer.getBounds());
+        // Fit map bounds to the geojson layer with padding to compensate for the left panel
+        map.fitBounds(geojsonLayer.getBounds(), {
+            paddingTopLeft: [360, 20], // 320px left panel + 40px margin
+            paddingBottomRight: [20, 20]
+        });
 
     } catch (error) {
         console.error('Error loading GeoJSON:', error);
