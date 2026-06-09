@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBDAlert - West Borneo Dengue Outbreak Prediction</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="map"></div>
+    
+    <!-- Glassmorphism Overlay Panels -->
+    <div class="overlay-container left-panel">
+        <div class="glass-panel header-panel">
+            <h1>DBDAlert</h1>
+            <p class="subtitle">West Borneo Outbreak Prediction</p>
+        </div>
+        
+        <div class="glass-panel stats-panel">
+            <h2>Current Situation</h2>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <span class="stat-value text-danger" id="totalCases">--</span>
+                    <span class="stat-label">Total Cases</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value text-warning" id="activeHotspots">--</span>
+                    <span class="stat-label">Active Hotspots</span>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <h3>District Details</h3>
+            <p id="districtName" class="district-name">Hover over a district</p>
+            <div class="district-stats" id="districtStats">
+                <div class="stat-row">
+                    <span>Predicted Risk:</span>
+                    <span id="riskLevel">--</span>
+                </div>
+                <div class="stat-row">
+                    <span>Recent Cases:</span>
+                    <span id="recentCases">--</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="overlay-container bottom-right">
+        <div class="glass-panel legend-panel">
+            <h3>Risk Level</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="color-box risk-extreme"></span>
+                    <span>Extreme (>100 cases)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="color-box risk-high"></span>
+                    <span>High (51-100 cases)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="color-box risk-medium"></span>
+                    <span>Medium (21-50 cases)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="color-box risk-low"></span>
+                    <span>Low (0-20 cases)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Custom Script -->
+    <script src="script.js"></script>
+</body>
+</html>
