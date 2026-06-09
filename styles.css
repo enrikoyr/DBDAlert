@@ -37,6 +37,18 @@ body {
     background-color: var(--bg-dark);
 }
 
+/* Vignette Overlay for Map Edges */
+.vignette-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    background: radial-gradient(circle at center, transparent 30%, rgba(15, 17, 21, 0.95) 100%);
+    z-index: 500;
+}
+
 /* Override Leaflet controls for dark theme */
 .leaflet-control-zoom a {
     background-color: var(--panel-bg) !important;

@@ -59,7 +59,7 @@ function styleFeature(feature) {
         weight: 2,
         opacity: 1,
         color: '#ffffff',
-        fillOpacity: 0.7
+        fillOpacity: 0.3
     };
 }
 
