@@ -1,0 +1,11 @@
+name = "dbd-alert-backend"
+pages_build_output_dir = "."
+compatibility_date = "2024-03-20"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "dbd-alert-d1"
+database_id = "038069d0-6be3-42ce-aebb-30aed7cb1d2e" # Replace with actual D1 ID
+
+[triggers]
+crons = ["0 0 * * *"] # Run every day at midnight
