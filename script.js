@@ -249,7 +249,36 @@ async function loadGeoJSON() {
     }
 }
 
+// Fetch and load rivers and lakes GeoJSON
+async function loadWaterBodies() {
+    try {
+        // Fetching water bodies from a local GeoJSON. 
+        // This is much faster than querying Overpass API from the browser.
+        const response = await fetch('data/kalbar_water.geojson');
+        if (!response.ok) throw new Error('Water bodies GeoJSON not found');
+        
+        const data = await response.json();
+        
+        L.geoJSON(data, {
+            style: function(feature) {
+                return {
+                    color: '#3b82f6', // Bright blue for water
+                    weight: feature.geometry.type === 'LineString' ? 2 : 1,
+                    opacity: 0.8,
+                    fillColor: '#3b82f6',
+                    fillOpacity: 0.4
+                };
+            },
+            interactive: false // Don't trigger hover events on water
+        }).addTo(map);
+
+    } catch (error) {
+        console.warn('Could not load water bodies:', error);
+    }
+}
+
 // Initialize application
 document.addEventListener('DOMContentLoaded', () => {
     loadGeoJSON();
+    loadWaterBodies();
 });
