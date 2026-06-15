@@ -17,31 +17,50 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 20
 }).addTo(map);
 
-// Mock Data Generator
-// Generates random mock dengue case data for districts
-function generateMockData(districtName) {
-    // Set all cases to 0 for backend setup preparation
-    const cases = 0;
-    
-    let riskLevel = 'Rendah';
-    let riskColor = '#22c55e'; // Green
-    
-    if (cases > 100) {
-        riskLevel = 'Ekstrem';
-        riskColor = '#ef4444'; // Red
-    } else if (cases > 50) {
-        riskLevel = 'Tinggi';
-        riskColor = '#f97316'; // Orange
-    } else if (cases > 20) {
-        riskLevel = 'Sedang';
-        riskColor = '#eab308'; // Yellow
-    }
+function formatDistrictId(name) {
+    const isKota = name.toLowerCase().includes("pontianak") || name.toLowerCase().includes("singkawang");
+    const prefix = isKota ? "kota" : "kabupaten";
+    return `${prefix}-${name.toLowerCase().replace(/\s+/g, '-')}`;
+}
 
-    return {
-        cases: cases,
-        riskLevel: riskLevel,
-        riskColor: riskColor
-    };
+// Fetch real prediction from our Cloudflare Edge API
+async function fetchPrediction(districtName) {
+    const districtId = formatDistrictId(districtName);
+    try {
+        const res = await fetch(`/api/predict?district=${districtId}`);
+        if (!res.ok) throw new Error("API failed");
+        const data = await res.json();
+        
+        let riskLevel = 'Rendah';
+        let riskColor = '#22c55e'; // Green
+        let riskPercentage = data.prediction?.confidence || 0;
+        
+        if (data.prediction?.risk_level === 'High') {
+            if (riskPercentage >= 80) {
+                riskLevel = 'Ekstrem';
+                riskColor = '#ef4444'; // Red
+            } else {
+                riskLevel = 'Tinggi';
+                riskColor = '#f97316'; // Orange
+            }
+        } else if (data.prediction?.risk_level === 'Medium') {
+            riskLevel = 'Sedang';
+            riskColor = '#eab308'; // Yellow
+        }
+
+        return {
+            cases: `${riskPercentage}% Risiko`, 
+            riskLevel: riskLevel,
+            riskColor: riskColor
+        };
+    } catch (e) {
+        console.error("Prediction failed for", districtId, e);
+        return {
+            cases: "?",
+            riskLevel: "Loading/Error",
+            riskColor: "#6b7280"
+        };
+    }
 }
 
 // Clean up district name from GeoJSON properties
@@ -158,7 +177,7 @@ function renderDistrictList() {
                 <span class="district-badge ${badgeClass}">${typeText}</span>
                 <span class="list-item-name">${name}</span>
             </div>
-            <span class="list-item-cases" style="color: ${data.riskColor}">${data.cases} kasus</span>
+            <span class="list-item-cases" style="color: ${data.riskColor}">${data.cases}</span>
         `;
         listEl.appendChild(item);
     });
@@ -208,23 +227,27 @@ async function loadGeoJSON() {
             features: kalbarFeatures
         };
 
-        // Initialize mock data for each district
-        kalbarFeatures.forEach(f => {
+        // Fetch live predictions for all districts concurrently
+        document.getElementById('districtName').textContent = "Loading Predictions...";
+        
+        const fetchPromises = kalbarFeatures.map(async f => {
             const districtName = getDistrictName(f.properties);
-            const mock = generateMockData(districtName);
-            districtData[districtName] = mock;
+            const prediction = await fetchPrediction(districtName);
+            districtData[districtName] = prediction;
             
-            totalCasesCounter += mock.cases;
-            if (mock.riskLevel === 'Ekstrem' || mock.riskLevel === 'Tinggi') {
+            if (prediction.riskLevel === 'Ekstrem' || prediction.riskLevel === 'Tinggi') {
                 extremeHotspotsCounter++;
             }
         });
+
+        await Promise.all(fetchPromises);
+        document.getElementById('districtName').textContent = "Arahkan kursor ke area peta";
 
         // Render the full district list
         renderDistrictList();
 
         // Update overall stats panel
-        document.getElementById('totalCases').textContent = totalCasesCounter;
+        document.getElementById('totalCases').textContent = "14"; // 14 districts tracking
         document.getElementById('activeHotspots').textContent = extremeHotspotsCounter;
 
         // Add to map
