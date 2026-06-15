@@ -49,7 +49,7 @@ async function fetchPrediction(districtName) {
         }
 
         return {
-            cases: `${riskPercentage}% Risiko`, 
+            cases: `${riskPercentage}%`, 
             riskLevel: riskLevel,
             riskColor: riskColor
         };
