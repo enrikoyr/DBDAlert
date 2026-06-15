@@ -1,0 +1,10 @@
+name = "dbd-alert-cron"
+main = "index.js"
+compatibility_date = "2024-03-20"
+
+[triggers]
+crons = ["0 0 * * *"] # Run every day at midnight (UTC)
+
+# To deploy this worker, you will need to add two secrets to it via the Cloudflare Dashboard:
+# 1. PAGES_URL = "https://your-app-name.pages.dev"
+# 2. CRON_SECRET = "your-secure-password"
