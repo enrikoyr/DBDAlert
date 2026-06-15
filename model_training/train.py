@@ -5,8 +5,8 @@ import os
 from sklearn.naive_bayes import CategoricalNB
 from sklearn.preprocessing import KBinsDiscretizer
 
-DATA_FILE = "../data/KALIMANTAN BARAT DBD HISTORIS.xlsx"
-OUTPUT_FILE = "../data/model_weights.json"
+DATA_FILE = "data/KALIMANTAN BARAT DBD HISTORIS.xlsx"
+OUTPUT_FILE = "data/model_weights.json"
 
 def synthesize_weekly_data(annual_df):
     """
