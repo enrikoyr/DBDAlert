@@ -269,6 +269,9 @@ async function loadGeoJSON() {
         // Fallback or error state
         document.getElementById('districtName').textContent = "Error loading map data.";
         document.getElementById('districtName').style.color = "var(--risk-extreme)";
+    }
+}
+
 // Initialize application
 document.addEventListener('DOMContentLoaded', () => {
     loadGeoJSON();
