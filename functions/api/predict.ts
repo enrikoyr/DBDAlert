@@ -31,8 +31,16 @@ export async function onRequest(context: any) {
         let rainfallFeature = 'Low'; // Default
         if (districtRow.bmkg_code && districtRow.bmkg_code !== 'unknown') {
             try {
+                // The BMKG API only accepts adm4 codes (villages/kelurahan) but the DB holds adm2 codes (districts)
+                // We construct a valid adm4 proxy code by appending .01.2001 (Kabupaten) or .01.1001 (Kota)
+                let adm4Code = districtRow.bmkg_code;
+                if (adm4Code.length <= 5) { // e.g. "61.01"
+                    const isKota = districtRow.id.includes('kota-');
+                    adm4Code = `${adm4Code}.01.${isKota ? '1001' : '2001'}`;
+                }
+
                 // Fetch from BMKG
-                const bmkgRes = await fetch(`https://api.bmkg.go.id/publik/prakiraan-cuaca?adm4=${districtRow.bmkg_code}`);
+                const bmkgRes = await fetch(`https://api.bmkg.go.id/publik/prakiraan-cuaca?adm4=${adm4Code}`);
                 if (bmkgRes.ok) {
                     const bmkgData = await bmkgRes.json();
                     // VERY basic parsing for rainfall (assuming Cuaca array exists)
